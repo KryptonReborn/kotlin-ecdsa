@@ -3,6 +3,9 @@ agp = "8.1.4"
 kotlin = "1.9.22"
 androidMinSdk = "24"
 androidCompileSdk = "33"
+kotlinBignum = "0.3.9"
+secureRandom = "0.3.1"
+kotlinCryptoHash = "0.5.1"
 
 [libraries]
 kotlinGradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -11,6 +14,9 @@ androidGradlePlugin = { group = "com.android.tools.build", name = "gradle", vers
 # Common
 kotlinStdLib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
 kotlinTest = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlinBignum = { module = "com.ionspin.kotlin:bignum", version.ref = "kotlinBignum" }
+secureRandom = { module = "org.kotlincrypto:secure-random", version.ref = "secureRandom"}
+kotlinCryptoHash = { module = "org.kotlincrypto.hash:sha2", version.ref = "kotlinCryptoHash" }
 
 [plugins]
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
