@@ -10,7 +10,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.kotlinStdLib)
                 implementation(libs.kotlinBignum)
                 implementation(libs.secureRandom)
                 implementation(libs.kotlinCryptoHash)

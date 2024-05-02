@@ -3,6 +3,7 @@ package dev.kryptonreborn.ecdsa
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class Secp256k1Test {
@@ -43,11 +44,40 @@ class Secp256k1Test {
     }
 
     @Test
-    fun testSign() {
+    fun testSignValid() {
+        val data = byteArrayOf(0x00, 0x00, 0x00, 0x01, 0x01)
         val key = EcKeyGenerator.newInstance(Secp256k1)
-        val sign = EcSign.signData(key, byteArrayOf(0x00, 0x00, 0x00, 0x01, 0x01), EcSha256)
+        val sign = EcSign.signData(key, data, EcSha256)
 
-        assertTrue(EcSign.verifySignature(key.publicKey, byteArrayOf(0x00, 0x00, 0x00, 0x01, 0x01), EcSha256, sign))
+        assertTrue(EcSign.verifySignature(key.publicKey, data, EcSha256, sign))
+    }
+
+    @Test
+    fun testSignInvalidWithWrongData() {
+        val data = byteArrayOf(0x00, 0x00, 0x00, 0x01, 0x01)
+        val key = EcKeyGenerator.newInstance(Secp256k1)
+        val sign = EcSign.signData(key, data, EcSha256)
+
+        assertFalse(EcSign.verifySignature(key.publicKey, byteArrayOf(), EcSha256, sign))
+    }
+
+    @Test
+    fun testSignInvalidWithWrongPublishKey() {
+        val data = byteArrayOf(0x00, 0x00, 0x00, 0x01, 0x01)
+        val key1 = EcKeyGenerator.newInstance(Secp256k1)
+        val key2 = EcKeyGenerator.newInstance(Secp256k1)
+        val sign = EcSign.signData(key1, data, EcSha256)
+
+        assertFalse(EcSign.verifySignature(key2.publicKey, data, EcSha256, sign))
+    }
+
+    @Test
+    fun testSignInvalidWithWrongHasher() {
+        val data = byteArrayOf(0x00, 0x00, 0x00, 0x01, 0x01)
+        val key = EcKeyGenerator.newInstance(Secp256k1)
+        val sign = EcSign.signData(key, data, EcSha256)
+
+        assertFalse(EcSign.verifySignature(key.publicKey, data, EcSha512, sign))
     }
 
     private fun testKeyPair(
