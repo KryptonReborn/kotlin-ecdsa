@@ -42,7 +42,7 @@ Add the following dependency to your build.gradle.kts file
 
 ```build.gradle.kts
 dependencies {
-    implementation("kotlin-ecdsa:[library name]:[library version]")
+    implementation("dev.kryptonreborn:ecdsa:[version]")
 }
 ```
 
