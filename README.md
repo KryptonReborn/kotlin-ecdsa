@@ -42,7 +42,7 @@ Add the following dependency to your build.gradle.kts file
 
 ```build.gradle.kts
 dependencies {
-    implementation("dev.kryptonreborn:ecdsa:[version]")
+    implementation("dev.kryptonreborn.ecdsa:ecdsa:[version]")
 }
 ```
 
