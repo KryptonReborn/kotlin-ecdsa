@@ -2,10 +2,12 @@ package plugins
 
 import com.android.build.gradle.LibraryExtension
 import extensions.libs
-import org.gradle.api.*
-import org.gradle.kotlin.dsl.*
+import org.gradle.api.JavaVersion
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsSubTargetDsl
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
 
@@ -22,67 +24,61 @@ class CommonMppLibPlugin : Plugin<Project> {
                 defaultConfig {
                     minSdk = libs.findVersion("androidMinSdk").get().displayName.toInt()
                 }
+                compileOptions {
+                    sourceCompatibility = JavaVersion.VERSION_17
+                    targetCompatibility = JavaVersion.VERSION_17
+                }
             }
 
             extensions.configure<KotlinMultiplatformExtension> {
-                val hostOs = getHostOsName()
-                println("Host os name $hostOs")
-
-                when (hostOs) {
-                    HostOs.LINUX -> linuxX64("native")
-                    HostOs.MAC -> macosX64("native")
-                    HostOs.WINDOWS -> mingwX64("native")
+                jvm {
+                    compilations.all {
+                        kotlinOptions.jvmTarget = "17"
+                    }
+                    testRuns["test"].executionTask.configure {
+                        useJUnitPlatform()
+                    }
                 }
-                jvm()
+                androidTarget {
+                    publishAllLibraryVariants()
+                    publishLibraryVariantsGroupedByFlavor = true
+                    compilations.all {
+                        kotlinOptions.jvmTarget = "17"
+                    }
+                }
+
                 js {
                     configureTargetsForJS()
                 }
-                @OptIn(ExperimentalWasmDsl::class)
-                wasmJs {
-                    configureTargetsForJS()
-                }
-//  kotlinBignum does not yet support wasmWasi: https://github.com/ionspin/kotlin-multiplatform-bignum/blob/main/bignum/build.gradle.kts
+// waiting for wasm support in kotlinx resource https://github.com/goncalossilva/kotlinx-resources/issues/91
+//                @OptIn(ExperimentalWasmDsl::class)
+//                wasmJs {
+//                    configureTargetsForJS()
+//                }
 //                @OptIn(ExperimentalWasmDsl::class)
 //                wasmWasi {
 //                    nodejs()
 //                }
-                androidTarget {
-                    publishLibraryVariants("release")
-                    compilations.all {
-                        kotlinOptions {
-                            jvmTarget = "1.8"
-                        }
-                    }
-                }
-                iosX64("ios")
+
                 iosArm64()
+                iosX64()
                 iosSimulatorArm64()
+
+                mingwX64()
+                macosX64()
+                macosArm64()
+                linuxX64()
+                linuxArm64()
+
+                applyDefaultHierarchyTemplate()
 
                 sourceSets.apply {
                     commonMain.get()
-                    commonTest.dependencies {
+                    commonTest.get().dependencies {
                         implementation(libs.findLibrary("kotlinTest").get())
                     }
-                    nativeMain.get().dependsOn(commonMain.get())
-                    nativeTest.get().dependsOn(commonTest.get())
-                    iosMain.get().dependsOn(nativeMain.get())
-                    iosTest.get().dependsOn(nativeTest.get())
                 }
             }
-        }
-    }
-
-    enum class HostOs {
-        LINUX, WINDOWS, MAC
-    }
-
-    private fun getHostOsName(): HostOs {
-        val target = System.getProperty("os.name")
-        return when {
-            target == "Linux" -> HostOs.LINUX
-            target.startsWith("Windows") -> HostOs.WINDOWS
-            target.startsWith("Mac") -> HostOs.MAC
-            else -> throw GradleException("Unknown OS: $target")
         }
     }
 
