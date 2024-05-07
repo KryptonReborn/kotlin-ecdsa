@@ -16,7 +16,7 @@ publishConfig {
 version = "0.0.1"
 
 android {
-    namespace = "kotlin.ecdsa"
+    namespace = "dev.kryptonreborn.ecdsa"
 }
 
 kotlin {
