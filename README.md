@@ -16,7 +16,7 @@
 
 [//]: # (![badge-watchos]&#40;http://img.shields.io/badge/Platform-watchOS-orange.svg?logo=apple&#41;)
 
-This is the template for initializing a repo based on Kotlin Multiplarform
+Kotlin implementation of elliptical curve cryptography
 
 ## Download
 
@@ -48,4 +48,4 @@ dependencies {
 
 ## Acknowledgements
 
-This library is inspired by [repo](url) by [user](url).
+This library is inspired by [ecdsa-kotlin](https://github.com/carterharrison/ecdsa-kotlin) by [carterharrison](https://github.com/carterharrison).

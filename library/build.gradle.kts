@@ -9,8 +9,8 @@ plugins {
 
 publishConfig {
     url = "https://maven.pkg.github.com/KryptonReborn/kotlin-ecdsa"
-    groupId = "kotlin-ecdsa"
-    artifactId = "library"
+    groupId = "kryptonreborn"
+    artifactId = "ecdsa"
 }
 
 version = "0.0.1"
