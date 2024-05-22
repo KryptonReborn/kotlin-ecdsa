@@ -52,10 +52,11 @@ data class EcPoint(
             x: ByteArray,
             y: ByteArray,
             curve: EcCurve,
-        ): EcPoint = EcPoint(
-            x = BigInteger.fromByteArray(x, Sign.POSITIVE),
-            y = BigInteger.fromByteArray(y, Sign.POSITIVE),
-            curve = curve,
-        )
+        ): EcPoint =
+            EcPoint(
+                x = BigInteger.fromByteArray(x, Sign.POSITIVE),
+                y = BigInteger.fromByteArray(y, Sign.POSITIVE),
+                curve = curve,
+            )
     }
 }
