@@ -1,6 +1,7 @@
 package dev.kryptonreborn.ecdsa
 
 import com.ionspin.kotlin.bignum.integer.BigInteger
+import dev.kryptonreborn.ecdsa.TestUtil.testSigningWithTestVectors
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -72,5 +73,10 @@ class Secp256r1Test {
         val keypair = EcKeyGenerator.newInstance(privateKey, Secp256r1)
 
         assertEquals(expectedPublic, keypair.publicKey)
+    }
+
+    @Test
+    fun testSigningWithTestVectorsSha256Secp256r1() {
+        testSigningWithTestVectors(::loadSecp256r1Sha256TestJson, Secp256r1, EcSha256)
     }
 }

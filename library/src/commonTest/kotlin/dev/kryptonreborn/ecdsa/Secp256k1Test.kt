@@ -91,4 +91,9 @@ class Secp256k1Test {
 
         assertEquals(expectedPublic, keypair.publicKey)
     }
+
+//    @Test
+//    fun testSigningWithTestVectorsSha256Secp256k1() {
+//        testSigningWithTestVectors(::loadSecp256k1Sha256TestJson, Secp256k1, EcSha256)
+//    }
 }

@@ -17,6 +17,8 @@ class CommonMppLibPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply(libs.findPlugin("androidLibrary").get().get().pluginId)
                 apply(libs.findPlugin("kotlinMultiplatform").get().get().pluginId)
+                apply(libs.findPlugin("kotlinTestingResource").get().get().pluginId)
+                apply(libs.findPlugin("kotlinPluginSerialization").get().get().pluginId)
             }
 
             extensions.configure<LibraryExtension> {
@@ -76,6 +78,8 @@ class CommonMppLibPlugin : Plugin<Project> {
                     commonMain.get()
                     commonTest.get().dependencies {
                         implementation(libs.findLibrary("kotlinTest").get())
+                        implementation(libs.findLibrary("kotlinxSerializationJson").get())
+                        implementation(libs.findLibrary("kotlinTestingResource").get())
                     }
                 }
             }

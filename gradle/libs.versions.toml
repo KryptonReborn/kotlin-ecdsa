@@ -1,9 +1,11 @@
 [versions]
 agp = "8.3.2"
-kotlin = "1.9.23"
+kotlin = "2.0.0"
 androidMinSdk = "24"
 androidCompileSdk = "33"
-kotlinBignum = "0.3.9"
+kotlinxSerialization = "1.6.3"
+kotlinBignum = "0.3.10"
+kotlinTestingResource = "0.9.0"
 secureRandom = "0.3.1"
 kotlinCryptoHash = "0.5.1"
 ktlintVersion = "12.1.1"
@@ -14,13 +16,17 @@ androidGradlePlugin = { group = "com.android.tools.build", name = "gradle", vers
 
 # Common
 kotlinTest = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlinxSerializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 kotlinBignum = { module = "com.ionspin.kotlin:bignum", version.ref = "kotlinBignum" }
 secureRandom = { module = "org.kotlincrypto:secure-random", version.ref = "secureRandom"}
 kotlinCryptoHash = { module = "org.kotlincrypto.hash:sha2", version.ref = "kotlinCryptoHash" }
+kotlinTestingResource = { module = "com.goncalossilva:resources", version.ref = "kotlinTestingResource" }
 
 [plugins]
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlinTestingResource = { id = "com.goncalossilva.resources", version.ref = "kotlinTestingResource" }
 mavenPublish = { id = "maven-publish", version = "unspecified" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintVersion" }
 

@@ -59,6 +59,14 @@ object EcSign {
         val r = signature.r
         val s = signature.s
 
+        if (r < BigInteger.ONE || r > n - BigInteger.ONE) {
+            return false
+        }
+
+        if (s < BigInteger.ONE || s > n - BigInteger.ONE) {
+            return false
+        }
+
         val c = s.modInverse(n)
         val u1 = (hash * c) % n
         val u2 = (r * c) % n
