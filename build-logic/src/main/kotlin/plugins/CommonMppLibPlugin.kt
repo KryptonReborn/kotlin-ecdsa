@@ -2,6 +2,7 @@ package plugins
 
 import com.android.build.gradle.LibraryExtension
 import extensions.libs
+import extensions.registerPrintLineCoverageTask
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -17,7 +18,11 @@ class CommonMppLibPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply(libs.findPlugin("androidLibrary").get().get().pluginId)
                 apply(libs.findPlugin("kotlinMultiplatform").get().get().pluginId)
+                apply(libs.findPlugin("dokka").get().get().pluginId)
+                apply(libs.findPlugin("kover").get().get().pluginId)
             }
+
+            registerPrintLineCoverageTask()
 
             extensions.configure<LibraryExtension> {
                 compileSdk = libs.findVersion("androidCompileSdk").get().displayName.toInt()
